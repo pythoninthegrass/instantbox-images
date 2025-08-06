@@ -1,5 +1,8 @@
 # instantbox-images
-Containers for [instantbox](https://github.com/instantbox/instantbox) with [ttyd](https://github.com/tsl0922/ttyd) enabled.
+
+Containers for [instantbox](https://github.com/pythoninthegrass/instantbox) with [ttyd](https://github.com/tsl0922/ttyd) enabled.
+
+Supported distributions: Ubuntu LTS, AlmaLinux, Debian, Fedora, Arch Linux, and Alpine Linux.
 
 ## Usage
 
@@ -7,25 +10,52 @@ Containers for [instantbox](https://github.com/instantbox/instantbox) with [ttyd
 docker run --rm -it -p 1588:1588 <image_name>
 ```
 
-## Manifest
+## Building Images
 
-|image|badge|
-|-----|-----|
-|`instantbox/ubuntu:14.04`|[![](https://badgen.net/docker/size/instantbox/ubuntu/14.04/amd64?icon=docker&label=size)](https://microbadger.com/images/instantbox/ubuntu:14.04)|
-|`instantbox/ubuntu:16.04`|[![](https://badgen.net/docker/size/instantbox/ubuntu/16.04/amd64?icon=docker&label=size)](https://microbadger.com/images/instantbox/ubuntu:16.04)|
-|`instantbox/ubuntu:18.04`|[![](https://badgen.net/docker/size/instantbox/ubuntu/18.04/amd64?icon=docker&label=size)](https://microbadger.com/images/instantbox/ubuntu:18.04)|
-|`instantbox/ubuntu:20.04`|[![](https://badgen.net/docker/size/instantbox/ubuntu/20.04/amd64?icon=docker&label=size)](https://microbadger.com/images/instantbox/ubuntu:20.04)|
-|`instantbox/ubuntu:latest`|[![](https://badgen.net/docker/size/instantbox/ubuntu/latest/amd64?icon=docker&label=size)](https://microbadger.com/images/instantbox/ubuntu:latest)|
-|`instantbox/centos:6.10`|[![](https://badgen.net/docker/size/instantbox/centos/6.10/amd64?icon=docker&label=size)](https://microbadger.com/images/instantbox/centos:6.10)|
-|`instantbox/centos:7`|[![](https://badgen.net/docker/size/instantbox/centos/7/amd64?icon=docker&label=size)](https://microbadger.com/images/instantbox/centos:7)|
-|`instantbox/centos:8`|[![](https://badgen.net/docker/size/instantbox/centos/8/amd64?icon=docker&label=size)](https://microbadger.com/images/instantbox/centos:8)|
-|`instantbox/centos:latest`|[![](https://badgen.net/docker/size/instantbox/centos/latest/amd64?icon=docker&label=size)](https://microbadger.com/images/instantbox/centos:latest)|
-|`instantbox/arch:latest`|[![](https://badgen.net/docker/size/instantbox/arch/latest/amd64?icon=docker&label=size)](https://microbadger.com/images/instantbox/arch:latest)|
-|`instantbox/debian:jessie`|[![](https://badgen.net/docker/size/instantbox/debian/jessie/amd64?icon=docker&label=size)](https://microbadger.com/images/instantbox/debian:jessie)|
-|`instantbox/debian:stretch`|[![](https://badgen.net/docker/size/instantbox/debian/stretch/amd64?icon=docker&label=size)](https://microbadger.com/images/instantbox/debian:stretch)|
-|`instantbox/debian:buster`|[![](https://badgen.net/docker/size/instantbox/debian/buster/amd64?icon=docker&label=size)](https://microbadger.com/images/instantbox/debian:buster)|
-|`instantbox/debian:latest`|[![](https://badgen.net/docker/size/instantbox/debian/latest/amd64?icon=docker&label=size)](https://microbadger.com/images/instantbox/debian:latest)|
-|`instantbox/fedora:30`|[![](https://badgen.net/docker/size/instantbox/fedora/30/amd64?icon=docker&label=size)](https://microbadger.com/images/instantbox/fedora:30)|
-|`instantbox/fedora:31`|[![](https://badgen.net/docker/size/instantbox/fedora/31/amd64?icon=docker&label=size)](https://microbadger.com/images/instantbox/fedora:31)|
-|`instantbox/fedora:latest`|[![](https://badgen.net/docker/size/instantbox/fedora/latest/amd64?icon=docker&label=size)](https://microbadger.com/images/instantbox/fedora:latest)|
-|`instantbox/alpine:latest`|[![](https://badgen.net/docker/size/instantbox/alpine/latest/amd64?icon=docker&label=size)](https://microbadger.com/images/instantbox/alpine:latest)|
+This project uses Docker Buildx Bake for efficient multi-platform builds:
+
+```bash
+# Build all images locally (loads to local Docker daemon)
+./build.sh
+
+# Build and push all images (multi-platform)
+./build.sh --push
+
+# Build specific distributions
+./build.sh ubuntu alma
+
+# Build specific versions
+./build.sh ubuntu-22-04 fedora-41
+
+# Use custom registry
+./build.sh --registry myregistry.com/instantbox --push
+```
+
+**Note**: Local builds automatically use your current platform architecture and load images into your local Docker daemon. Push builds create multi-platform images (linux/amd64, linux/arm64).
+
+## Supported Images
+
+| Distribution   | Versions                                | Registry                        | Platforms                 |
+|----------------|-----------------------------------------|---------------------------------|---------------------------|
+| **Ubuntu**     | 20.04 LTS, 22.04 LTS, 24.04 LTS, latest | `ghcr.io/instantbox/ubuntu`     | linux/amd64, linux/arm64  |
+| **AlmaLinux**  | 9, 10, latest                           | `ghcr.io/instantbox/alma`       | linux/amd64, linux/arm64  |
+| **Debian**     | 11, 12, latest                          | `ghcr.io/instantbox/debian`     | linux/amd64, linux/arm64  |
+| **Fedora**     | 41, 42, latest                          | `ghcr.io/instantbox/fedora`     | linux/amd64, linux/arm64  |
+| **Arch Linux** | latest                                  | `ghcr.io/instantbox/arch`       | linux/amd64, linux/arm64  |
+| **Alpine**     | latest                                  | `ghcr.io/instantbox/alpine`     | linux/amd64, linux/arm64  |
+
+### Example Usage
+
+```bash
+# Ubuntu 22.04 LTS
+docker run --rm -it -p 1588:1588 ghcr.io/instantbox/ubuntu:22.04
+
+# AlmaLinux 9
+docker run --rm -it -p 1588:1588 ghcr.io/instantbox/alma:9
+
+# Debian 12
+docker run --rm -it -p 1588:1588 ghcr.io/instantbox/debian:12
+
+# Alpine Linux
+docker run --rm -it -p 1588:1588 ghcr.io/instantbox/alpine:latest
+```
