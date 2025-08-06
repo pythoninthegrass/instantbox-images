@@ -1,4 +1,4 @@
-FROM archlinux/base:latest
+FROM archlinux/archlinux:latest
 
 LABEL \
   org.label-schema.schema-version="1.0" \
