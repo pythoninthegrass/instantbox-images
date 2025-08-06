@@ -1,8 +1,8 @@
-FROM ubuntu:14.04
+FROM ubuntu:24.04
 
 LABEL \
   org.label-schema.schema-version="1.0" \
-  org.label-schema.name="instantbox/ubuntu:14.04" \
+  org.label-schema.name="instantbox/ubuntu:24.04" \
   org.label-schema.vcs-url="https://github.com/instantbox/instantbox-images" \
   maintainer="Instantbox Team <team@instantbox.org>"
 
@@ -10,7 +10,7 @@ WORKDIR /home
 
 RUN apt-get update -qq && apt-get install -qq -y python3-pip --no-install-recommends \
   && rm -rf /var/lib/apt/lists/* \
-  && pip3 install freeFile
+  && pip3 install --break-system-packages freeFile
 
 COPY ./ttyd_linux.x86_64 /usr/bin/
 

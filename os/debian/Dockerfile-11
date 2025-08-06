@@ -1,8 +1,8 @@
-FROM debian:stretch
+FROM debian:11
 
 LABEL \
   org.label-schema.schema-version="1.0" \
-  org.label-schema.name="instantbox/debian:stretch" \
+  org.label-schema.name="instantbox/debian:11" \
   org.label-schema.vcs-url="https://github.com/instantbox/instantbox-images" \
   maintainer="Instantbox Team <team@instantbox.org>"
 
